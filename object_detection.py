@@ -28,9 +28,7 @@ class ObjectDectection:
         return locations
     
     def draw_rectangle(self, background_img, threshold=0.5):
-        # target_flipped = cv.flip(self.target_img, 1)
         locations = self.match(background_img, self.target_img, threshold)
-        # locations.extend(self.match(background_img, target_flipped, threshold))
 
         # Create rectangles and eliminate overlapping ones
         rectangles = []
@@ -59,8 +57,8 @@ class ObjectDectection:
         return
     
     def detect(self, background_img, threshold=0.5):
-        match = self.match(background_img, self.target_img, threshold)
+        locations = self.match(background_img, self.target_img, threshold)
 
-        if match:
+        if locations:
             return True
         return False

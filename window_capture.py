@@ -6,13 +6,9 @@ import mss.tools
 
 class WindowCapture:
     # properties
-    w = 1920
-    h = 1080
+    w = 1920    # change this
+    h = 1080    # change this
     hwnd = None
-    cropped_x = 0
-    cropped_y = 0
-    offset_x = 0
-    offset_y = 0
 
     # constructor
     def __init__(self, window_name=None):
@@ -64,3 +60,4 @@ class WindowCapture:
             if win32gui.IsWindowVisible(hwnd):
                 print(hex(hwnd), win32gui.GetWindowText(hwnd))
         win32gui.EnumWindows(winEnumHandler, None)
+        
