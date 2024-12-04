@@ -1,29 +1,33 @@
 import cv2 as cv
 import numpy as np
+import os
+from time import time
+from window_capture import WindowCapture
+from object_detection import ObjectDectection
 
-mob_img = cv.imread('imgs/mob.png', cv.IMREAD_UNCHANGED)
-background_img = cv.imread('imgs/background.png', cv.IMREAD_UNCHANGED)
 
-result = cv.matchTemplate(background_img, mob_img, cv.TM_CCOEFF_NORMED)
+# List all window names
+# WindowCapture.list_window_names()
+# exit()
 
-min_val, max_val, min_loc, max_loc = cv.minMaxLoc(result)
+#initialize the WindowCapture class
+wincap = WindowCapture()
+object_dectector_self = ObjectDectection("imgs/self.png")
 
-print(f"Best match top left position: {max_loc}")
-print(f"Best match confidence: {max_val}")
-
-threshold = 0.6
-if max_val > threshold:
-    print("Found the mob.")
-    mob_w = mob_img.shape[1]
-    mob_h = mob_img.shape[0]
+loop_time = time()
+while(True):
+    # get an updated image of the game
+    screenshot = wincap.get_screenshot()
+    object_dectector_self.detect(screenshot, threshold=0.5)
     
-    top_left = max_loc
-    bottom_right = (top_left[0] + mob_w, top_left[1] + mob_h)
-    
-    cv.rectangle(background_img, top_left, bottom_right,
-                 color = (0, 255, 0), thickness = 2, lineType=cv.LINE_4)
-    cv.imshow("Result", background_img)
-    cv.waitKey()
-    cv.imwrite("imgs/result.png", background_img)
-else:
-    print("Mob not found!")
+    # debug the loop rate
+    print('FPS {}'.format(1 / (time() - loop_time)))
+    loop_time = time()
+
+    # press 'q' with the output window focused to exit.
+    # waits 1 ms every loop to process key presses
+    if cv.waitKey(1) == ord('q'):
+        cv.destroyAllWindows()
+        break
+
+print('Done.')
