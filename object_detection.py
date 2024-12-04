@@ -27,11 +27,9 @@ class ObjectDectection:
         
         return locations
     
-    def detect(self, background_img, threshold=0.5):
-        # Ensure the images are 2D or have the same number of channels
+    def draw_rectangle(self, background_img, threshold=0.5):
         # target_flipped = cv.flip(self.target_img, 1)
-        locations = []
-        locations.extend(self.match(background_img, self.target_img, threshold))
+        locations = self.match(background_img, self.target_img, threshold)
         # locations.extend(self.match(background_img, target_flipped, threshold))
 
         # Create rectangles and eliminate overlapping ones
@@ -46,16 +44,23 @@ class ObjectDectection:
 
         if len(rectangles):
             print("Found needle.")
-            # line_color = (0, 255, 0)
-            # lineType=cv.LINE_4
+            line_color = (0, 255, 0)
+            lineType=cv.LINE_4
             
-            # for (x, y, w, h) in rectangles:
-            #     top_left = (x, y)
-            #     bottom_right = (x + w, y + h)
-            #     # Draw the boxes
-            #     cv.rectangle(background_img, top_left, bottom_right,
-            #                 color = line_color, lineType=lineType, thickness=2)
+            for (x, y, w, h) in rectangles:
+                top_left = (x, y)
+                bottom_right = (x + w, y + h)
+                # Draw the boxes
+                cv.rectangle(background_img, top_left, bottom_right,
+                            color = line_color, lineType=lineType, thickness=2)
 
             
         cv.imshow("Matches", background_img)
         return
+    
+    def detect(self, background_img, threshold=0.5):
+        match = self.match(background_img, self.target_img, threshold)
+
+        if match:
+            return True
+        return False
