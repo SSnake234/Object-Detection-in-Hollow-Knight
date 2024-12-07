@@ -19,6 +19,17 @@ class WindowCapture:
             if not self.hwnd:
                 raise Exception('Window not found: {}'.format(window_name))
         
+        # window_rect = win32gui.GetWindowRect(self.hwnd)
+        # self.w = window_rect[2] - window_rect[0]
+        # self.h = window_rect[3] - window_rect[1]
+
+        # border_pixels = 8
+        # titlebar_pixels = 30
+        # self.w = self.w - (border_pixels * 2)
+        # self.h = self.h - titlebar_pixels - border_pixels
+        # self.cropped_x = border_pixels
+        # self.cropped_y = titlebar_pixels
+        
 
     def get_screenshot(self):
         # Using win32gui
@@ -30,7 +41,7 @@ class WindowCapture:
         # cDC.SelectObject(dataBitMap)
         # cDC.BitBlt((0, 0), (self.w, self.h), dcObj, (self.cropped_x, self.cropped_y), win32con.SRCCOPY)
 
-        # convert the raw data into a format opencv can read
+        # # convert the raw data into a format opencv can read
         # #dataBitMap.SaveBitmapFile(cDC, 'debug.bmp')
         # signedIntsArray = dataBitMap.GetBitmapBits(True)
         # screenshot = np.frombuffer(signedIntsArray, dtype='uint8')
@@ -44,8 +55,8 @@ class WindowCapture:
         # screenshot = screenshot[...,:3]
         # screenshot = np.ascontiguousarray(screenshot)
         
-        # Using mss (faster)
-        monitor = {"top": 0, "left": 0, "width": 1920, "height": 1080}
+        # Using mss
+        monitor = {"top": 0, "left": 0, "width": self.w, "height": self.h}
         with mss.mss() as sct:
             screenshot = sct.grab(monitor)
             

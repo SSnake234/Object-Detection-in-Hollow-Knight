@@ -20,7 +20,7 @@ loop_time = time.time()
 while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
-    if object_dectector_self_left.detect(screenshot, threshold=0.5):
+    if object_dectector_self_left.draw_rectangle(screenshot, threshold=0.5):
         print("Facing left, jumping.")
         pyautogui.keyDown('x')
         time.sleep(1)
@@ -41,4 +41,4 @@ while(True):
         cv.destroyAllWindows()
         break
 
-print('Done.')
+print('Done.')     
