@@ -1,17 +1,15 @@
 from ultralytics import YOLO
 
-# Load a model
+# Load a model, n for Nano and s for Small (there are also Medium and Large models)
 model = YOLO("yolo11s.pt")
 
 # Train the model
 train_results = model.train(
-    data="dataset/data.yaml",
+    data="grimm_dataset/data.yaml",
     epochs=100,
     imgsz=640,
     batch=32,  
-    device="cpu",
-    name="hollow_knight_experiment"
+    device="cpu", # Change to "0" for GPU
 )
 
-# Evaluate model performance on the validation set
 metrics = model.val()

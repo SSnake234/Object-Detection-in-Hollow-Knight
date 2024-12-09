@@ -1,18 +1,18 @@
 from ultralytics import YOLO
-import cv2
+import cv2 as cv
 import numpy as np
 from window_capture import WindowCapture
 
 wincap = WindowCapture()
-model = YOLO("weights/nano_best.pt")  # Path to your YOLO model
+model = YOLO("grimm_results/nano/train/weights/best.pt")  # Path to your YOLO model
 
 # Define the codec and create VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.avi', fourcc, 20.0, (1920, 1080))
+fourcc = cv.VideoWriter_fourcc(*'XVID')
+out = cv.VideoWriter('demo_videos/grimm_nano_demo.avi', fourcc, 10.0, (1920, 1080))
 
-# Set the duration for capturing video (2 minutes)
-duration = 2 * 60  # 2 minutes in seconds
-start_time = cv2.getTickCount()
+# Set the duration for capturing video
+duration = 1.5 * 60  
+start_time = cv.getTickCount()
 
 def get_bounding_boxes(results):
     boxes = []
@@ -24,23 +24,23 @@ def get_bounding_boxes(results):
             boxes.append((x1, y1, x2, y2, class_name))
     return boxes
 
-# Loop for continuous detection
+# Capture video
 while True:
     screenshot = wincap.get_screenshot()
     results = model.predict(source=screenshot, save=False, show=False)
-    annotated_frame = results[0].plot()
-    print(get_bounding_boxes(results))
+    annotated_frame = results[0].plot() 
+    # print(get_bounding_boxes(results))
 
-    # out.write(annotated_frame)
-    cv2.imshow("YOLO Detection", annotated_frame)
-    cv2.waitKey()
+    out.write(annotated_frame)
+    # cv.imshow("YOLO Detection", annotated_frame)
+    
     # Break the loop if 'q' is pressed or duration is exceeded
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv.waitKey(1) & 0xFF == ord('q'):
         break
-    # if (cv2.getTickCount() - start_time) / cv2.getTickFrequency() > duration:
-    #     break
+    if (cv.getTickCount() - start_time) / cv.getTickFrequency() > duration:
+        break
 
 # Release resources
 out.release()
-cv2.destroyAllWindows()
+cv.destroyAllWindows()
 
