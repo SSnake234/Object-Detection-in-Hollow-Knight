@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 11
+names: ['Dash Uppercut', 'Dive Dash', 'Fire Bat', 'Fireball', 'Grimm', 'Open Cloak', 'Player', 'Pufferfish', 'Spikes', 'Staggered_Grimm', 'Tiny Fireballs']
+
+roboflow:
+  workspace: image-annotation-xskos
+  project: hollow-knight-vs-grimm
+  version: 3
+  license: Public Domain
+  url: https://universe.roboflow.com/image-annotation-xskos/hollow-knight-vs-grimm/dataset/3
