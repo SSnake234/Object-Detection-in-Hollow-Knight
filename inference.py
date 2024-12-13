@@ -4,11 +4,11 @@ import numpy as np
 from window_capture import WindowCapture
 
 wincap = WindowCapture()
-model = YOLO("grimm_results/nano/train/weights/best.pt")  # Path to your YOLO model
+model = YOLO("hornet_results/hornet_nano_best.pt")  # Path to your YOLO model
 
 # Define the codec and create VideoWriter object
 fourcc = cv.VideoWriter_fourcc(*'XVID')
-out = cv.VideoWriter('demo_videos/grimm_nano_demo.avi', fourcc, 10.0, (1920, 1080))
+out = cv.VideoWriter('demo_videos/hornet_nano_demo.avi', fourcc, 15.0, (1920, 1080))
 
 # Set the duration for capturing video
 duration = 1.5 * 60  
